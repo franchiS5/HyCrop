@@ -1,16 +1,26 @@
 package App;
 
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.io.File;
 
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JScrollPane;
 import javax.swing.JTree;
 import javax.swing.UIManager;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreePath;
+import javax.swing.event.TreeSelectionListener;
+import javax.swing.event.TreeSelectionEvent;
+
+import java.awt.SystemColor;
 
 
 
@@ -18,7 +28,8 @@ public class MainWindow {
 
 	private JFrame MainWindow;
 	private int anchowindow = 300;
-	public JTree tree;
+
+	
 
 	/**
 	 * Launch the application.
@@ -29,6 +40,7 @@ public class MainWindow {
 				try {
 					MainWindow window = new MainWindow();
 					window.MainWindow.setVisible(true);
+					
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -46,7 +58,7 @@ public class MainWindow {
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	@SuppressWarnings({ "serial", "rawtypes", "unchecked" })
+	@SuppressWarnings({ })
 	private void initialize() {
 		MainWindow = new JFrame();
 		MainWindow.setTitle("HyCrop 1.0 Beta");
@@ -55,7 +67,6 @@ public class MainWindow {
 		MainWindow.addComponentListener(new ComponentAdapter() {
 			@Override
 			public void componentResized(ComponentEvent arg0) {
-				System.out.println("caca");
 				anchowindow = MainWindow.getWidth();
 				menuBar.setBounds(0, 0, anchowindow, 21);
 				
@@ -95,6 +106,44 @@ public class MainWindow {
 		JMenuItem menuItem = new JMenuItem("?");
 		mnAyuda.add(menuItem);
 		
+		
+		DirectoryTree dt=new DirectoryTree();
+		dt.getTree().expandPath(null);
+        JScrollPane jsc=new JScrollPane(dt.getTree());
+        jsc.setBounds(0,menuBar.getHeight(),200,400);
+        jsc.setVisible(true);
+        jsc.setEnabled(true);
+        
+        
+        MainWindow.getContentPane().add(jsc);
+        
+		FileTreeFrame ftf = new FileTreeFrame("C:\\");
+		
+
+
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+        
+		
 	}
+		}
+		
+		
+		
 	
-}
+
