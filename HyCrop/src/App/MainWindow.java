@@ -1,7 +1,5 @@
 package App;
 
-import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
@@ -11,31 +9,19 @@ import java.awt.event.ComponentEvent;
 import java.io.File;
 
 import javax.swing.BorderFactory;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JScrollPane;
-import javax.swing.JSplitPane;
-import javax.swing.JTextArea;
 import javax.swing.JTree;
 import javax.swing.UIManager;
-import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.DefaultTreeModel;
-import javax.swing.tree.TreePath;
-import javax.swing.event.TreeSelectionListener;
-import javax.swing.event.TreeSelectionEvent;
 import javax.swing.filechooser.FileSystemView;
-
-import java.awt.SystemColor;
-
-import javax.swing.JFileChooser;
-import javax.swing.JComboBox;
-
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 
 
@@ -43,20 +29,17 @@ public class MainWindow {
 
 	private JFrame MainWindow;
 	private int anchowindow = 300;
+	private JTree fileTree;
+	private FileSystemModel fileSystemModel;
 	File unidades[];
 	Object items[];
 	String devices;
+	
+	
 
-	/////////////////////////////////////////////////////////////////////
-	private JTree fileTree;
-	private FileSystemModel fileSystemModel;
-	private JTextArea fileDetailsTextArea = new JTextArea();
-/////////////////////////////////////////////////////////////////////////
 	  
 	  
-	/**
-	 * Launch the application.
-	 */
+	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -71,16 +54,12 @@ public class MainWindow {
 		});
 	}
 
-	/**
-	 * Create the application.
-	 */
+	
 	public MainWindow() {
 		initialize();
 	}
 
-	/**
-	 * Initialize the contents of the frame.
-	 */
+	
 	@SuppressWarnings({ })
 	private void initialize() {
 		MainWindow = new JFrame();
@@ -136,106 +115,106 @@ public class MainWindow {
 		mnAyuda.add(menuItem);
 		
 		JComboBox combo = new JComboBox();
+		combo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				System.out.println("hola");
+				devices= (String) combo.getSelectedItem();
+				char letra[] = new char[4];
+				devices.getChars(devices.length()-4, devices.length(), letra, 0);
+				char W1 = letra[1];
+				char W2 = letra[2];
+				String letraSeleccionada = Character.toString(W1) + Character.toString(W2) + "/";
+				System.out.println(letraSeleccionada);
+				
+
+				fileSystemModel = new FileSystemModel(new File(letraSeleccionada));		
+		        fileTree = new JTree(fileSystemModel);
+		        fileTree.setEditable(true);
+		        fileTree.setBorder(BorderFactory.createEtchedBorder());
+				fileTree.setBounds(0, 22, 500, 200);
+				
+				//Cargamos el Scroll con el JFileTree
+				
+				JScrollPane jsc=new JScrollPane(fileTree);
+				jsc.setBorder(UIManager.getBorder("Tree.editorBorder"));
+				jsc.setBounds(0,42,350,190);
+				jsc.setVisible(true);
+				MainWindow.getContentPane().add(jsc);
+				
+				
+			}
+		});
+		
+		
 		combo.setBounds(0,21,350,21);
 		buscarUnidades(combo);
 		MainWindow.getContentPane().add(combo);
-		//JComboBox<Object> comboBox = new JComboBox<Object>();
-		
-		//comboBox.setBounds(0, 21, 350, 21);
-		//MainWindow.getContentPane().add(comboBox);
 		
 		
-		        //fileTree.setBounds(0,0,50,50);
-		        //JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, true, new JScrollPane(
-		            //fileTree), new JScrollPane(fileDetailsTextArea));
-		        //MainWindow.getContentPane().add(splitPane);
-		        
-		        //splitPane.setBounds(50,50,500,500);
-		        //MainWindow.getContentPane().add(fileTree);
+		/*devices= (String) combo.getSelectedItem();
+		char letra[] = new char[4];
+		devices.getChars(devices.length()-4, devices.length(), letra, 0);
+		char W1 = letra[1];
+		char W2 = letra[2];
+		String letraSeleccionada = Character.toString(W1) + Character.toString(W2) + "/";
 		
-		devices= (String) combo.getSelectedItem();
-		fileDetailsTextArea.setEditable(false);
-        fileSystemModel = new FileSystemModel(new File("C:/"));	
+		fileSystemModel = new FileSystemModel(new File(letraSeleccionada));		
         fileTree = new JTree(fileSystemModel);
-        //fileTree.setAlignmentY(Component.TOP_ALIGNMENT);
-        //fileTree.setAlignmentX(Component.RIGHT_ALIGNMENT);
         fileTree.setEditable(true);
         fileTree.setBorder(BorderFactory.createEtchedBorder());
 		fileTree.setBounds(0, 22, 500, 200);
+		
+		//Cargamos el Scroll con el JFileTree
+		
+		JScrollPane jsc=new JScrollPane(fileTree);
+		jsc.setBorder(UIManager.getBorder("Tree.editorBorder"));
+		jsc.setBounds(0,42,350,190);
+		jsc.setVisible(true);
+		MainWindow.getContentPane().add(jsc);
+		
+		
+
+				
+			
+		
+		
+		
+		
+				
+				
+		
+		
+		
+		
+		
+		/* Depuracion de la letra seleccionada en el comboBox
+		
+		devices= (String) combo.getSelectedItem();
+		char letra[] = new char[4];
+		devices.getChars(devices.length()-4, devices.length(), letra, 0);
+		char W1 = letra[1];
+		char W2 = letra[2];
+		String letraSeleccionada = Character.toString(W1) + Character.toString(W2) + "/";
+		
+		//Creacion del JFileTree
+        
+		fileSystemModel = new FileSystemModel(new File(letraSeleccionada));		
+        fileTree = new JTree(fileSystemModel);
+        fileTree.setEditable(true);
+        fileTree.setBorder(BorderFactory.createEtchedBorder());
+		fileTree.setBounds(0, 22, 500, 200);
+		
+		//Cargamos el Scroll con el JFileTree
+		
 		JScrollPane jsc=new JScrollPane(fileTree);
 		jsc.setBorder(UIManager.getBorder("Tree.editorBorder"));
 		jsc.setBounds(0,42,350,190);
 		jsc.setVisible(true);
 		MainWindow.getContentPane().add(jsc);
         
-        fileTree.addTreeSelectionListener(new TreeSelectionListener() {
-        public void valueChanged(TreeSelectionEvent event) {
-        File file = (File) fileTree.getLastSelectedPathComponent();
-        fileDetailsTextArea.setText(getFileDetails(file));
-          }
-        });
-
-		
-		
-		
-		/*DirectoryTree dt=new DirectoryTree();
-		dt.getTree().expandPath(null);
-        JScrollPane jsc=new JScrollPane(dt.getTree());
-        jsc.setBounds(0,menuBar.getHeight(),200,400);
-        jsc.setVisible(true);
-        jsc.setEnabled(true);
-        
-        
-        MainWindow.getContentPane().add(jsc);*/
-        
-		//////////////////////////////////////////////////////////////////////////
-        /*fileDetailsTextArea.setEditable(false);
-        if(devices != null){
-        	fileSystemModel = new FileSystemModel(new File(devices));
-        }else{
-        	fileSystemModel = new FileSystemModel(new File("C:/"));	
-        }
-        
-        fileTree = new JTree(fileSystemModel);
-        fileTree.setAlignmentY(Component.TOP_ALIGNMENT);
-        fileTree.setAlignmentX(Component.RIGHT_ALIGNMENT);
-        fileTree.setEditable(true);
-        
-        fileTree.addTreeSelectionListener(new TreeSelectionListener() {
-          public void valueChanged(TreeSelectionEvent event) {
-            File file = (File) fileTree.getLastSelectedPathComponent();
-            fileDetailsTextArea.setText(getFileDetails(file));
-          }
-        });
-        
-        JScrollPane jsc=new JScrollPane(fileTree);
-        jsc.setBorder(UIManager.getBorder("Tree.editorBorder"));
-        jsc.setBounds(0,42,350,190);
-        jsc.setVisible(true);
-        //fileTree.setBounds(0,0,50,50);
-        //JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, true, new JScrollPane(
-            //fileTree), new JScrollPane(fileDetailsTextArea));
-        //MainWindow.getContentPane().add(splitPane);
-        
-        //splitPane.setBounds(50,50,500,500);
-        //MainWindow.getContentPane().add(fileTree);
-        fileTree.setBorder(BorderFactory.createEtchedBorder());
-		fileTree.setBounds(0, 22, 500, 200);
-		MainWindow.getContentPane().add(jsc);*/
-		
-		
+        */
 		
 	}
-	////////////////////////////////////////////////////////
-	private String getFileDetails(File file) {
-        if (file == null)
-          return "";
-        StringBuffer buffer = new StringBuffer();
-        buffer.append("Name: " + file.getName() + "\n");
-        buffer.append("Path: " + file.getPath() + "\n");
-        buffer.append("Size: " + file.length() + "\n");
-        return buffer.toString();
-      }
 	
 	public void buscarUnidades(JComboBox comboBox){
 		  unidades = File.listRoots();
@@ -257,7 +236,26 @@ public class MainWindow {
 		   comboBox.addItem(it[i]);
 		  }
 		 }
-		 
+	
+	public void TreeRefresh (JComboBox combo, String letraSeleccionada){
+		
+		//Creacion del JFileTree
+        
+		fileSystemModel = new FileSystemModel(new File(letraSeleccionada));		
+        fileTree = new JTree(fileSystemModel);
+        fileTree.setEditable(true);
+        fileTree.setBorder(BorderFactory.createEtchedBorder());
+		fileTree.setBounds(0, 22, 500, 200);
+		
+		//Cargamos el Scroll con el JFileTree
+		
+		JScrollPane jsc=new JScrollPane(fileTree);
+		jsc.setBorder(UIManager.getBorder("Tree.editorBorder"));
+		jsc.setBounds(0,42,350,190);
+		jsc.setVisible(true);
+		MainWindow.getContentPane().add(jsc);
+		
+        }
 }
 		
 		
