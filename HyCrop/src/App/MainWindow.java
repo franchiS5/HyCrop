@@ -126,7 +126,6 @@ public class MainWindow {
 				String letraSeleccionada = Character.toString(W1) + Character.toString(W2) + "/";
 				System.out.println(letraSeleccionada);
 				
-
 				fileSystemModel = new FileSystemModel(new File(letraSeleccionada));		
 		        fileTree = new JTree(fileSystemModel);
 		        fileTree.setEditable(true);
