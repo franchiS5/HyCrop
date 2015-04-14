@@ -33,6 +33,10 @@ import App.FileTreePanel.FileTreeCellRenderer;
 import App.FileTreePanel.FileTreeNode;
 import javax.swing.JInternalFrame;
 import java.awt.Rectangle;
+import javax.swing.border.BevelBorder;
+import javax.swing.border.CompoundBorder;
+import javax.swing.border.LineBorder;
+import java.awt.Color;
 
 
 
@@ -129,8 +133,8 @@ public MainWindow() {
 		
 		JInternalFrame internalFrame = new JInternalFrame("");
 		internalFrame.setFrameIcon(null);
-		internalFrame.setBorder(null);
-		internalFrame.setBounds(0, 22, 250, 500);
+		internalFrame.setBorder(UIManager.getBorder("Tree.editorBorder"));
+		internalFrame.setBounds(0, 22, 250, 200);
 		internalFrame.getContentPane().add(new FileTreePanel());
 		MainWindow.getContentPane().add(internalFrame);
 		internalFrame.setVisible(true);
