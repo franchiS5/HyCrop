@@ -2,6 +2,7 @@ package App;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.io.File;
+import java.io.FileFilter;
 import java.util.*;
 
 import javax.swing.*;
@@ -113,11 +114,29 @@ public class FileTreePanel extends JPanel {
 		 * @param parent
 		 *            Parent node.
 		 */
+		
+		
+		
+		
 		public FileTreeNode(File file, boolean isFileSystemRoot, TreeNode parent) {
+			
 			this.file = file;
 			this.isFileSystemRoot = isFileSystemRoot;
 			this.parent = parent;
-			this.children = this.file.listFiles();
+			// filtramos para mostrar solo los directorios
+			FileFilter fileFilter = new FileFilter() {
+				   
+	            @Override
+	            public boolean accept(File dir) {
+	            	if(dir.isDirectory())
+	            	{
+	            		return true;
+	            	}
+	            	return false;
+	            }
+	         };
+			
+			this.children = this.file.listFiles(fileFilter);
 			if (this.children == null)
 				this.children = new File[0];
 		}
@@ -247,6 +266,7 @@ public class FileTreePanel extends JPanel {
 		this.tree.setRootVisible(false);
 		final JScrollPane jsp = new JScrollPane(this.tree);
 		jsp.setBorder(new EmptyBorder(0, 0, 0, 0));
+		
 		this.add(jsp, BorderLayout.CENTER);
 	}
 
