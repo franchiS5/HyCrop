@@ -214,20 +214,6 @@ public MainWindow() {
 			e.printStackTrace();
 		}
 	    
-		
-		
-	    
-	    
-	    
-	    
-	    
-	    
-	    
-	    
-	    
-
-		
-			
 	}
 }
 		
