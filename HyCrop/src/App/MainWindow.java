@@ -49,24 +49,6 @@ public class MainWindow extends JFrame{
 	float escala = 1.0F;
 	
 	
-	
-	/*
-	 * File system view.
-	 */
-	protected static FileSystemView fsv = FileSystemView.getFileSystemView();
-	
-    /* static Image load(byte[] data) throws Exception{
-        Image image = null;
-        SeekableStream stream = new ByteArraySeekableStream(data);
-        String[] names = ImageCodec.getDecoderNames(stream);
-        ImageDecoder dec = 
-          ImageCodec.createImageDecoder(names[0], stream, null);
-        RenderedImage im = dec.decodeAsRenderedImage();
-        image = PlanarImage.wrapRenderedImage(im).getAsBufferedImage();
-        return image;
-      }*/
-	
-	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -95,26 +77,16 @@ public MainWindow() {
 		JMenuBar menuBar = new JMenuBar();
 		FileTreePanel ftp = new FileTreePanel();
 		panel.setBorder(null);
-		
 		panel.setBounds(new Rectangle(353, 22, 100, 100));
-		panel.setBackground(Color.WHITE);
-		
-		
-		
-				
 		ftp.setBackground(UIManager.getColor("Button.background"));
 		ftp.setBorder(new BevelBorder(BevelBorder.RAISED, null, null, null, null));
 		ftp.setBounds(0, 22, 350, 400);
 		ftp.setVisible(true);
 		MainWindow.getContentPane().add(ftp);
 		menuBar.setBounds(0, 0, 1008, 21);
-		
-		
-		
 		MainWindow.setBounds(100, 100, 1024, 768);
 		MainWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		MainWindow.getContentPane().setLayout(null);
-		
 		menuBar.setAutoscrolls(true);
 		menuBar.setMaximumSize(new Dimension(anchowindow, 2));
 		menuBar.setBorder(UIManager.getBorder("MenuBar.border"));
@@ -177,22 +149,10 @@ public MainWindow() {
 		jsp.setAlignmentY(Component.TOP_ALIGNMENT);
 		jsp.setAlignmentX(Component.LEFT_ALIGNMENT);
 		jsp.setPreferredSize(new Dimension(40, 40));
-		jsp.setBackground(Color.WHITE);
-		//jsp.setAutoscrolls(true);
+		jsp.setBackground(UIManager.getColor("Button.background"));
 		panel.add(jsp);
 		panel.setVisible(true);
 		MainWindow.setLocationRelativeTo(null);
-		
-		
-		
-        
-		
-		//ShowImage si = new ShowImage("D:/PRUEBA/IMAGES/LIBROS/01/0002.tif");
-		//JPanel panelImagen = si.escalar(0.16F);
-		//panel.setLayout(null);
-		//jsp.setViewportView(panelImagen);
-		
-		
 		MainWindow.addComponentListener(new ComponentAdapter() {
 			@Override
 			public void componentResized(ComponentEvent arg0) {
@@ -202,65 +162,35 @@ public MainWindow() {
 				altopanel = MainWindow.getHeight() - menuBar.getHeight();
 				panel.setBounds(353, 22, anchopanel -22, altopanel -39);
 				jsp.setBounds(1, 1, panel.getWidth(), panel.getHeight());
-				//System.out.println("anchopanel: " + anchopanel + " " + "altopanel: " + altopanel);
-				//System.out.println("AltoPantalla: " + MainWindow.getHeight() + " AnchoPantalla :" + MainWindow.getWidth() );
+				
 				
 				if(imagen != null){
-					//System.out.println("anchopanel: " + anchopanel + " " + "altopanel: " + altopanel);
+					
 					anchopanel = MainWindow.getWidth() - ftp.getWidth();
 					altopanel = MainWindow.getHeight() - menuBar.getHeight();
 					panel.setBounds(353, 22, anchopanel -22, altopanel -39);
-					
-					//jsp.setBounds(0, 0, panel.getWidth(), panel.getHeight());
-					
-					
-					
-					//JPanel nuevopanel = mostrarImagen(jsp,imagen, (float) jsp.getWidth(), (float) jsp.getHeight() );
 					JPanel nuevopanel = mostrarImagen(jsp,imagen, (float) panel.getWidth(), (float) panel.getHeight() );
-					
-					System.out.println("Ancho Panel:" + panel.getWidth() + " Alto Panel: " + panel.getHeight());
-					System.out.println("Ancho jsp: " + jsp.getWidth() + " Alto jsp: " + jsp.getHeight());
-					System.out.println("Ancho p nuevo: " + nuevopanel.getWidth() + " Alto p nuevo: " + nuevopanel.getHeight());
-					
-					//panel.setLayout(null);
-					
 					jsp.setViewportView(nuevopanel);
-					//jsp.repaint();	
+					}
 				}
-				
-				
-			}
 		});
 		
 		table.addMouseListener(new MouseAdapter() {
         	@Override
         	public void mouseClicked(MouseEvent arg0) {
         		JOptionPane.showMessageDialog(null, data[table.getSelectedRow()][0]);
-        		imagen = "D:/PRUEBA/IMAGES/LIBROS/01/0002.tif";
-        		
-        		
-        		
-        		//JPanel nuevopanel = mostrarImagen(jsp,imagen, (float) panel.getWidth(), (float) panel.getHeight());
+        		imagen = "D:/PRUEBA/IMAGES/LIBROS/01/0004.tif";
         		JPanel nuevopanel = mostrarImagen(jsp,imagen, (float) panel.getWidth(), (float) panel.getHeight());
-        		System.out.println("Ancho Panel:" + panel.getWidth() + " Alto Panel: " + panel.getHeight());
-				System.out.println("Ancho jsp: " + jsp.getWidth() + " Alto jsp: " + jsp.getHeight());
-				System.out.println("Ancho p nuevo: " + nuevopanel.getWidth() + " Alto p nuevo: " + nuevopanel.getHeight());
-        		
-        		//System.out.println("PNW:" + panel.getWidth() + " PNH:" + panel.getHeight());
-        		//panel.setLayout(null);
         		jsp.setViewportView(nuevopanel);
         		jsp.repaint();
         	}
         });
-
 }
 		 
 		
 	public JPanel mostrarImagen(JScrollPane panelScroll,String imagen, float w, float h){
 		ShowImage si = new ShowImage(imagen);
 		JPanel panelImagen = si.escalar(w , h);
-		//panelScroll.setLayout(null);
-		//panelScroll.setViewportView(panelImagen);
 		return panelImagen;
 	}
 	

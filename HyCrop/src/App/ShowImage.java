@@ -36,34 +36,6 @@ public class ShowImage{
 	
 	public JPanel escalar(float w, float h){
 		
-		System.out.println("W: " + w + " " + "H: " + h);
-		System.out.println("imageW: " + image.getWidth() + " " + "imageH: " + image.getHeight());
-		
-		/*if (w > h){
-			lmR = w;
-		}else{
-			lmR = h;
-		}
-		
-		if (image.getHeight() > image.getWidth()){
-			lmI = image.getHeight();
-			if (lmI > lmR){
-				escala = lmR / lmI;
-			}else{
-				escala = lmI / lmR;
-			}
-			//escala = h / lmI;
-		}else{
-			lmI= image.getWidth();
-			if (lmI > lmR){
-				escala = lmI / lmR;
-			}else{
-				escala = lmR / lmI;
-			}
-			
-			//escala = w / lmI;
-		}*/
-		
 		escala_alto = h / image.getHeight();
 		escala_ancho = w / image.getWidth();
 		
@@ -75,11 +47,7 @@ public class ShowImage{
 		}
 		
 		
-		
-		
-		System.out.println("Ancho dj antes: " + image.getWidth() + " Alto  antes: " + image.getHeight());
-		
-		ParameterBlock pb = new ParameterBlock();
+		 ParameterBlock pb = new ParameterBlock();
 	     pb.addSource(image); // imagen origen
 	     pb.add(escala); // escala x
 	     pb.add(escala); // escala y
@@ -88,8 +56,6 @@ public class ShowImage{
 	     pb.add(new InterpolationNearest() ); // ;InterpolationNeaerst());
 	     RenderedOp image2 = JAI.create("scale", pb);
 	     dj=new DisplayJAI(image2);
-	     
-	     System.out.println("Ancho dj nuevo: " + image2.getWidth() + " Alto  nuevo: " + image2.getHeight());
 	     return dj;
 	}
 }
