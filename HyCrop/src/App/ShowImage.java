@@ -20,6 +20,8 @@ public class ShowImage{
 	private RenderedOp image;
 	private DisplayJAI dj;
 	private String imagen;
+	private float escala;
+	private float ladomayor;
 	
 	public ShowImage(String imagen){
 		this.imagen=imagen;
@@ -31,7 +33,27 @@ public class ShowImage{
 		return dj;
 	}
 	
-	public JPanel escalar(float escala){
+	public JPanel escalar(float w, float h){
+		
+		System.out.println("W: " + w + " " + "H: " + h);
+		System.out.println("imageW: " + image.getWidth() + " " + "imageH: " + image.getHeight());
+		
+		if (image.getHeight() > image.getWidth()){
+			ladomayor = image.getHeight();
+		}else{
+			ladomayor= image.getWidth();
+		}
+		
+		if (w > image.getWidth()){
+			//escala = w / (float) image.getWidth();
+			escala = w / ladomayor;
+			System.out.println("escala: " + escala);
+		}else{
+			//escala = h / (float) image.getHeight();
+			escala = h / ladomayor;
+			System.out.println("escala: " + escala);
+		}
+		
 		
 		ParameterBlock pb = new ParameterBlock();
 	     pb.addSource(image); // imagen origen

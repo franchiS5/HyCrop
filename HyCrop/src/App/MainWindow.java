@@ -3,17 +3,17 @@ package App;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.EventQueue;
-import java.awt.Image;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.awt.image.RenderedImage;
 
-import javax.media.jai.PlanarImage;
+import javax.swing.DebugGraphics;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -25,15 +25,7 @@ import javax.swing.JTable;
 import javax.swing.UIManager;
 import javax.swing.border.BevelBorder;
 import javax.swing.filechooser.FileSystemView;
-
-import com.sun.media.jai.codec.ByteArraySeekableStream;
-import com.sun.media.jai.codec.ImageCodec;
-import com.sun.media.jai.codec.ImageDecoder;
-import com.sun.media.jai.codec.SeekableStream;
-
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import javax.swing.DebugGraphics;
+import java.awt.Component;
 
 
 
@@ -47,8 +39,11 @@ public class MainWindow extends JFrame{
 	private int anchowindow = 300;
 	private int anchopanel;
 	private int altopanel;
-	private JScrollPane jsp=new JScrollPane();
+	private JScrollPane jsp = new JScrollPane();
 	JPanel panelImagen;
+	JPanel panel = new JPanel();
+	String imagen = null;
+	float escala = 1.0F;
 	
 	
 	
@@ -57,7 +52,7 @@ public class MainWindow extends JFrame{
 	 */
 	protected static FileSystemView fsv = FileSystemView.getFileSystemView();
 	
-    static Image load(byte[] data) throws Exception{
+    /* static Image load(byte[] data) throws Exception{
         Image image = null;
         SeekableStream stream = new ByteArraySeekableStream(data);
         String[] names = ImageCodec.getDecoderNames(stream);
@@ -66,7 +61,7 @@ public class MainWindow extends JFrame{
         RenderedImage im = dec.decodeAsRenderedImage();
         image = PlanarImage.wrapRenderedImage(im).getAsBufferedImage();
         return image;
-      }
+      }*/
 	
 	
 	public static void main(String[] args) {
@@ -96,7 +91,7 @@ public MainWindow() {
 		MainWindow.setTitle("HyCrop 1.0 Beta");
 		JMenuBar menuBar = new JMenuBar();
 		FileTreePanel ftp = new FileTreePanel();
-		JPanel panel = new JPanel();
+		
 		panel.setBounds(new Rectangle(353, 22, 100, 100));
 		panel.setBackground(Color.WHITE);
 		
@@ -174,13 +169,15 @@ public MainWindow() {
 		scrolltabla.setVisible(true);
 		MainWindow.getContentPane().add(scrolltabla);
 		MainWindow.getContentPane().add(panel);
+		jsp.setAlignmentY(Component.TOP_ALIGNMENT);
+		jsp.setAlignmentX(Component.LEFT_ALIGNMENT);
 		jsp.setPreferredSize(new Dimension(10, 10));
-		jsp.setDebugGraphicsOptions(DebugGraphics.NONE_OPTION);
 		jsp.setAutoscrolls(true);
-		
 		panel.add(jsp);
-		MainWindow.setLocationRelativeTo(null);
 		panel.setVisible(true);
+		MainWindow.setLocationRelativeTo(null);
+		
+		
 		
         
 		
@@ -195,15 +192,26 @@ public MainWindow() {
 			public void componentResized(ComponentEvent arg0) {
 				anchowindow = MainWindow.getWidth();
 				menuBar.setBounds(0, 0, anchowindow, 21);
-				System.out.println("Ancho antes: " + anchopanel);
 				anchopanel = MainWindow.getWidth() - ftp.getWidth();
 				altopanel = MainWindow.getHeight() - menuBar.getHeight();
-				panel.setBounds(new Rectangle(353, 22, anchopanel, altopanel));
-				panel.repaint();
-				jsp.setBounds(0, 0, anchopanel-20, altopanel-40);
+				panel.setBounds(353, 22, anchopanel, altopanel);
+				jsp.setBounds(0, 0, panel.getWidth(), panel.getHeight());
+				System.out.println("anchopanel: " + anchopanel + " " + "altopanel: " + altopanel);
 				
-				jsp.setViewportView(panelImagen);
-				jsp.repaint();
+				if(imagen != null){
+					System.out.println("anchopanel: " + anchopanel + " " + "altopanel: " + altopanel);
+					anchopanel = MainWindow.getWidth() - ftp.getWidth();
+					altopanel = MainWindow.getHeight() - menuBar.getHeight();
+					panel.setBounds(353, 22, anchopanel, altopanel);
+					
+					jsp.setBounds(0, 0, panel.getWidth(), panel.getHeight());
+					panel = mostrarImagen(jsp,imagen, (float) jsp.getWidth(), (float) jsp.getHeight() );				
+					panel.setLayout(null);
+					
+					jsp.setViewportView(panel);
+					jsp.repaint();	
+				}
+				
 				
 			}
 		});
@@ -212,8 +220,10 @@ public MainWindow() {
         	@Override
         	public void mouseClicked(MouseEvent arg0) {
         		JOptionPane.showMessageDialog(null, data[table.getSelectedRow()][0]);
-        		mostrarImagen(jsp,"D:/PRUEBA/IMAGES/LIBROS/01/0001.tif");
-        		panel.add(jsp);
+        		imagen = "D:/PRUEBA/IMAGES/LIBROS/01/0002.tif";
+        		panel = mostrarImagen(jsp,imagen, (float) panel.getWidth(), (float) panel.getHeight());
+        		panel.setLayout(null);
+        		jsp.setViewportView(panel);
         		jsp.repaint();
         	}
         });
@@ -221,11 +231,12 @@ public MainWindow() {
 }
 		 
 		
-	public void mostrarImagen(JScrollPane panelScroll,String imagen){
-		ShowImage si = new ShowImage("D:/PRUEBA/IMAGES/LIBROS/01/0003.tif");
-		JPanel panelImagen=si.escalar(0.16F);
-		panelScroll.setLayout(null);
-		panelScroll.setViewportView(panelImagen);
+	public JPanel mostrarImagen(JScrollPane panelScroll,String imagen, float w, float h){
+		ShowImage si = new ShowImage(imagen);
+		JPanel panelImagen = si.escalar(w , h);
+		//panelScroll.setLayout(null);
+		//panelScroll.setViewportView(panelImagen);
+		return panelImagen;
 	}
 	
 	public class ListenForMaximize extends WindowAdapter {
