@@ -29,7 +29,7 @@ import com.sun.media.jai.widget.DisplayJAI;
      {
      // Load the image which file name was passed as the first argument to the
      // application.
-     RenderedOp image = JAI.create("fileload", "D:/PRUEBA/IMAGES/LIBROS/01/0001.tif");
+     RenderedOp image = JAI.create("fileload", "D:/PRUEBA/IMAGES/LIBROS/TEST/BUS_A040360_0000.tif");
      
      // PRUEBAS REESCALADO
      //***************************************************************
