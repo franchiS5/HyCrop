@@ -26,6 +26,9 @@ import javax.swing.UIManager;
 import javax.swing.border.BevelBorder;
 import javax.swing.filechooser.FileSystemView;
 import java.awt.Component;
+import javax.swing.border.EtchedBorder;
+import javax.swing.border.MatteBorder;
+import javax.swing.JButton;
 
 
 
@@ -91,6 +94,7 @@ public MainWindow() {
 		MainWindow.setTitle("HyCrop 1.0 Beta");
 		JMenuBar menuBar = new JMenuBar();
 		FileTreePanel ftp = new FileTreePanel();
+		panel.setBorder(null);
 		
 		panel.setBounds(new Rectangle(353, 22, 100, 100));
 		panel.setBackground(Color.WHITE);
@@ -169,10 +173,12 @@ public MainWindow() {
 		scrolltabla.setVisible(true);
 		MainWindow.getContentPane().add(scrolltabla);
 		MainWindow.getContentPane().add(panel);
+		jsp.setBorder(null);
 		jsp.setAlignmentY(Component.TOP_ALIGNMENT);
 		jsp.setAlignmentX(Component.LEFT_ALIGNMENT);
-		jsp.setPreferredSize(new Dimension(10, 10));
-		jsp.setAutoscrolls(true);
+		jsp.setPreferredSize(new Dimension(40, 40));
+		jsp.setBackground(Color.WHITE);
+		//jsp.setAutoscrolls(true);
 		panel.add(jsp);
 		panel.setVisible(true);
 		MainWindow.setLocationRelativeTo(null);
@@ -194,22 +200,32 @@ public MainWindow() {
 				menuBar.setBounds(0, 0, anchowindow, 21);
 				anchopanel = MainWindow.getWidth() - ftp.getWidth();
 				altopanel = MainWindow.getHeight() - menuBar.getHeight();
-				panel.setBounds(353, 22, anchopanel, altopanel);
-				jsp.setBounds(0, 0, panel.getWidth(), panel.getHeight());
-				System.out.println("anchopanel: " + anchopanel + " " + "altopanel: " + altopanel);
+				panel.setBounds(353, 22, anchopanel -22, altopanel -39);
+				jsp.setBounds(1, 1, panel.getWidth(), panel.getHeight());
+				//System.out.println("anchopanel: " + anchopanel + " " + "altopanel: " + altopanel);
+				//System.out.println("AltoPantalla: " + MainWindow.getHeight() + " AnchoPantalla :" + MainWindow.getWidth() );
 				
 				if(imagen != null){
-					System.out.println("anchopanel: " + anchopanel + " " + "altopanel: " + altopanel);
+					//System.out.println("anchopanel: " + anchopanel + " " + "altopanel: " + altopanel);
 					anchopanel = MainWindow.getWidth() - ftp.getWidth();
 					altopanel = MainWindow.getHeight() - menuBar.getHeight();
-					panel.setBounds(353, 22, anchopanel, altopanel);
+					panel.setBounds(353, 22, anchopanel -22, altopanel -39);
 					
-					jsp.setBounds(0, 0, panel.getWidth(), panel.getHeight());
-					panel = mostrarImagen(jsp,imagen, (float) jsp.getWidth(), (float) jsp.getHeight() );				
-					panel.setLayout(null);
+					//jsp.setBounds(0, 0, panel.getWidth(), panel.getHeight());
 					
-					jsp.setViewportView(panel);
-					jsp.repaint();	
+					
+					
+					//JPanel nuevopanel = mostrarImagen(jsp,imagen, (float) jsp.getWidth(), (float) jsp.getHeight() );
+					JPanel nuevopanel = mostrarImagen(jsp,imagen, (float) panel.getWidth(), (float) panel.getHeight() );
+					
+					System.out.println("Ancho Panel:" + panel.getWidth() + " Alto Panel: " + panel.getHeight());
+					System.out.println("Ancho jsp: " + jsp.getWidth() + " Alto jsp: " + jsp.getHeight());
+					System.out.println("Ancho p nuevo: " + nuevopanel.getWidth() + " Alto p nuevo: " + nuevopanel.getHeight());
+					
+					//panel.setLayout(null);
+					
+					jsp.setViewportView(nuevopanel);
+					//jsp.repaint();	
 				}
 				
 				
@@ -221,9 +237,18 @@ public MainWindow() {
         	public void mouseClicked(MouseEvent arg0) {
         		JOptionPane.showMessageDialog(null, data[table.getSelectedRow()][0]);
         		imagen = "D:/PRUEBA/IMAGES/LIBROS/01/0002.tif";
-        		panel = mostrarImagen(jsp,imagen, (float) panel.getWidth(), (float) panel.getHeight());
-        		panel.setLayout(null);
-        		jsp.setViewportView(panel);
+        		
+        		
+        		
+        		//JPanel nuevopanel = mostrarImagen(jsp,imagen, (float) panel.getWidth(), (float) panel.getHeight());
+        		JPanel nuevopanel = mostrarImagen(jsp,imagen, (float) panel.getWidth(), (float) panel.getHeight());
+        		System.out.println("Ancho Panel:" + panel.getWidth() + " Alto Panel: " + panel.getHeight());
+				System.out.println("Ancho jsp: " + jsp.getWidth() + " Alto jsp: " + jsp.getHeight());
+				System.out.println("Ancho p nuevo: " + nuevopanel.getWidth() + " Alto p nuevo: " + nuevopanel.getHeight());
+        		
+        		//System.out.println("PNW:" + panel.getWidth() + " PNH:" + panel.getHeight());
+        		//panel.setLayout(null);
+        		jsp.setViewportView(nuevopanel);
         		jsp.repaint();
         	}
         });

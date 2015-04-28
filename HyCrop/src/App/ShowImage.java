@@ -21,7 +21,8 @@ public class ShowImage{
 	private DisplayJAI dj;
 	private String imagen;
 	private float escala;
-	private float ladomayor;
+	private float escala_alto;
+	private float escala_ancho;
 	
 	public ShowImage(String imagen){
 		this.imagen=imagen;
@@ -38,22 +39,45 @@ public class ShowImage{
 		System.out.println("W: " + w + " " + "H: " + h);
 		System.out.println("imageW: " + image.getWidth() + " " + "imageH: " + image.getHeight());
 		
+		/*if (w > h){
+			lmR = w;
+		}else{
+			lmR = h;
+		}
+		
 		if (image.getHeight() > image.getWidth()){
-			ladomayor = image.getHeight();
+			lmI = image.getHeight();
+			if (lmI > lmR){
+				escala = lmR / lmI;
+			}else{
+				escala = lmI / lmR;
+			}
+			//escala = h / lmI;
 		}else{
-			ladomayor= image.getWidth();
+			lmI= image.getWidth();
+			if (lmI > lmR){
+				escala = lmI / lmR;
+			}else{
+				escala = lmR / lmI;
+			}
+			
+			//escala = w / lmI;
+		}*/
+		
+		escala_alto = h / image.getHeight();
+		escala_ancho = w / image.getWidth();
+		
+		if(escala_ancho >= escala_alto){
+			
+			escala = escala_alto;
+		}else{
+			escala = escala_ancho;
 		}
 		
-		if (w > image.getWidth()){
-			//escala = w / (float) image.getWidth();
-			escala = w / ladomayor;
-			System.out.println("escala: " + escala);
-		}else{
-			//escala = h / (float) image.getHeight();
-			escala = h / ladomayor;
-			System.out.println("escala: " + escala);
-		}
 		
+		
+		
+		System.out.println("Ancho dj antes: " + image.getWidth() + " Alto  antes: " + image.getHeight());
 		
 		ParameterBlock pb = new ParameterBlock();
 	     pb.addSource(image); // imagen origen
@@ -65,7 +89,7 @@ public class ShowImage{
 	     RenderedOp image2 = JAI.create("scale", pb);
 	     dj=new DisplayJAI(image2);
 	     
-	     
+	     System.out.println("Ancho dj nuevo: " + image2.getWidth() + " Alto  nuevo: " + image2.getHeight());
 	     return dj;
 	}
 }
